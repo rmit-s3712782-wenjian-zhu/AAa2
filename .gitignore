@@ -1,2 +1,15 @@
 .classpath
 .project
+<<<<<<< HEAD
+=======
+BattleshipMain.class
+Answer.class
+GreedyGuessPlayer.class
+Guess.class
+Player.class
+ProbabilisticGuessPlayer.class
+RandomGuessPlayer.class
+/ship
+/world
+src/.DS_Store
+>>>>>>> ken
