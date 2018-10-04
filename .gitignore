@@ -7,7 +7,7 @@ Guess.class
 Player.class
 ProbabilisticGuessPlayer.class
 RandomGuessPlayer.class
-/ship
-/world
+ship
+world
 src/.DS_Store
 .DS_Store~ken
