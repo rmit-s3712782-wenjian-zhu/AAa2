@@ -15,9 +15,8 @@ import world.World.ShipLocation;
 public class RandomGuessPlayer implements Player {
 
     /*
-     * javac -cp .:samplePlayer.jar BattleshipMain.java java -cp
-     * .:samplePlayer.jar BattleshipMain -v ../config.txt ../loc1.txt
-     * ../loc2.txt sample sample
+     * javac -cp .:samplePlayer.jar BattleshipMain.java 
+     * java -cp .:samplePlayer.jar BattleshipMain -v ../config.txt ../loc1.txt ../loc2.txt sample sample
      * 
      * 
      * 
