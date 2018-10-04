@@ -1,9 +1,11 @@
 package player;
 
 import java.util.ArrayList;
-import world.*;
-import world.World.*;
 import java.util.Random;
+import java.util.Scanner;
+import world.World;
+import world.World.Coordinate;
+import world.World.ShipLocation;
 
 /**
  * Random guess player (task A). Please implement this class.
@@ -11,66 +13,121 @@ import java.util.Random;
  * @author Youhan Xia, Jeffrey Chan
  */
 public class RandomGuessPlayer implements Player {
-	ArrayList<Coordinate> shots = new ArrayList<>();
-	Random rand = new Random();
-	int x;
-	int y;
-	World world;
+    
+    
+    /*
+     * javac -cp .:samplePlayer.jar BattleshipMain.java
+     * java -cp .:samplePlayer.jar BattleshipMain -v ../config.txt ../loc1.txt ../loc2.txt sample sample
+     * 
+     * 
+     * 
+     */
 
-	@Override
-	public void initialisePlayer(World world) {
-		// To be implemented.
-		this.world = world;
-		x = world.numRow;
-		y = world.numColumn;
-		// recprd the health of its ships.
+    private World world;
 
-	} // end of initialisePlayer()
+    // arrays for ships and coordinates
+    public ArrayList<ShipLocation> shipLocations = new ArrayList<>();
+    public ArrayList<Coordinate> shots = new ArrayList<>();
+    // public ArrayList<Ship> ships = new Arraylist<>();
+    // our random object for random guessing
+    private Random random = new Random();
 
-	@Override
-	public Answer getAnswer(Guess guess) {
-		// To be implemented.
-		Answer answer = new Answer();
-		// Get the coordinate of guess.
-		Coordinate cdn = world.new Coordinate();
-		cdn.row = guess.row;
-		cdn.column = guess.column;
-		// Check if ShipLocation contains the coordinate.
-		for (ShipLocation ship : world.shipLocations) {
-			if (world.shots.contains(cdn))
-				answer.isHit = true;
-		}
-		// dummy return
-		return answer;
-	} // end of getAnswer()
+    /**
+     * Initialise the player using the world object.
+     * 
+     * @param world
+     *            world object contains the configuration and ship locations
+     */
+    @Override
+    public void initialisePlayer(World world) {
+        this.world = world;
+        this.shipLocations = world.shipLocations;
+        this.shots = world.shots;
 
-	@Override
-	public Guess makeGuess() {
-		// To be implemented.
-		Guess guess = new Guess();
-		Coordinate cdn = world.new Coordinate();
-		do {
-			guess.row = rand.nextInt(x);
-			guess.column = rand.nextInt(y);
-			cdn.row = guess.row;
-			cdn.column = guess.column;
-		} while (world.shots.contains(cdn));
-		// dummy return
-		return guess;
-	} // end of makeGuess()
+    } // end of initialisePlayer()
 
-	@Override
-	public void update(Guess guess, Answer answer) {
-		guess.toString();
-		answer.toString();
-	} // end of update()
+    /**
+     * Answer a guess from the opponent.
+     *
+     * @param guess
+     *            from the opponent.
+     * 
+     * @return Answer object holding the player's answer.
+     */
+    @Override
+    public Answer getAnswer(Guess guess) {
 
-	@Override
-	public boolean noRemainingShips() {
-		// To be implemented.
+        // instantiate a new answer object
+        Answer a = new Answer();
+        // for each ship
+        for (ShipLocation s : shipLocations) {
+            // check the coordinates to match the guess
+            for (Coordinate c : shots) {
+                if (c.column == guess.column && c.row == guess.row) {
+                    // if hit is true then set isHit for answer object
+                    a.isHit = true;
+                    // remove the coordinate from ship list
+                    s.coordinates.remove(c);
+                    // if s contains no more c
+                    if (s.coordinates == null)
+                        a.shipSunk = s.ship;
+                    return a;
+                } else
+                    a.isHit = false;
+            }
+        }
 
-		// dummy return
-		return false;
-	} // end of noRemainingShips()
+        return null;
+    } // end of getAnswer()
+
+    /**
+     * Generate/make a guess.
+     *
+     * @return Guess object.
+     */
+    @Override
+    public Guess makeGuess() {
+
+        Guess g = new Guess();
+        
+        g.column = random.nextInt(world.numColumn);
+        g.row = random.nextInt(world.numRow);
+
+        return g;
+    } // end of makeGuess()
+
+    /**
+     * Callback to allow player to process the answer of their guess and
+     * possibly update their internal state.
+     *
+     * @param guess
+     *            Guess of this player.
+     * @param answer
+     *            Answer to the guess from opponent.
+     */
+    @Override
+    public void update(Guess guess, Answer answer) {
+
+        guess.toString();
+        answer.toString();
+
+    } // end of update()
+
+    /**
+     * Check whether all the ships of this player have been destroyed by the
+     * opponent.
+     *
+     * @return True if there are no ship remaining, i.e., all ships sunk.
+     */
+    @Override
+    public boolean noRemainingShips() {
+        for (ShipLocation s : shipLocations) {
+            if (s.coordinates == null)
+
+                return true;
+        }
+
+        return false;
+    } // end of noRemainingShips()
 
 } // end of class RandomGuessPlayer
