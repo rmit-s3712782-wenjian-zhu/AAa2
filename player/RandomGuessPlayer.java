@@ -13,11 +13,11 @@ import world.World.ShipLocation;
  * @author Youhan Xia, Jeffrey Chan
  */
 public class RandomGuessPlayer implements Player {
-    
-    
+
     /*
-     * javac -cp .:samplePlayer.jar BattleshipMain.java
-     * java -cp .:samplePlayer.jar BattleshipMain -v ../config.txt ../loc1.txt ../loc2.txt sample sample
+     * javac -cp .:samplePlayer.jar BattleshipMain.java java -cp
+     * .:samplePlayer.jar BattleshipMain -v ../config.txt ../loc1.txt
+     * ../loc2.txt sample sample
      * 
      * 
      * 
@@ -70,20 +70,22 @@ public class RandomGuessPlayer implements Player {
                     s.coordinates.remove(c);
                     // if s contains no more coordinates
                     if (s.coordinates.size() == 0)
-                        //set ship status to sunk
+                        // set ship status to sunk
                         a.shipSunk = s.ship;
-                    break; 
+                    break;
                 }
-                if (a.isHit){
-                    //if ship is unk
-                    if(a.shipSunk != null){
+                // if the shot hits
+                if (a.isHit) {
+                    // check ship is not already sunk
+                    if (a.shipSunk != null) {
                         this.shipLocations.remove(s);
                         System.out.println("ship sunk");
                     }
-                    
+                    break;
+
                 }
-        }
-        }
+            } // end of coordinates iteration
+        } // end of shiplocations iteration
         return a;
     } // end of getAnswer()
 
@@ -96,7 +98,7 @@ public class RandomGuessPlayer implements Player {
     public Guess makeGuess() {
 
         Guess g = new Guess();
-        
+
         g.column = random.nextInt(world.numColumn);
         g.row = random.nextInt(world.numRow);
 
@@ -128,12 +130,11 @@ public class RandomGuessPlayer implements Player {
      */
     @Override
     public boolean noRemainingShips() {
+        //iterate through ship list and if no coords (health) then return true
         for (ShipLocation s : shipLocations) {
-            if (s.coordinates == null)
-
+            if (s.coordinates.size() == 0)
                 return true;
         }
-
         return false;
     } // end of noRemainingShips()
 
