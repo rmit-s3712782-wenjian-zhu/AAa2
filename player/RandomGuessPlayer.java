@@ -70,7 +70,7 @@ public class RandomGuessPlayer implements Player {
 	@Override
 	public boolean noRemainingShips() {
 		// To be implemented.
-
+		// check if ship lcoations all exist in shots
 		// dummy return
 		return false;
 	} // end of noRemainingShips()
