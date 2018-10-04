@@ -68,16 +68,23 @@ public class RandomGuessPlayer implements Player {
                     a.isHit = true;
                     // remove the coordinate from ship list
                     s.coordinates.remove(c);
-                    // if s contains no more c
-                    if (s.coordinates == null)
+                    // if s contains no more coordinates
+                    if (s.coordinates.size() == 0)
+                        //set ship status to sunk
                         a.shipSunk = s.ship;
-                    return a;
-                } else
-                    a.isHit = false;
-            }
+                    break; 
+                }
+                if (a.isHit){
+                    //if ship is unk
+                    if(a.shipSunk != null){
+                        this.shipLocations.remove(s);
+                        System.out.println("ship sunk");
+                    }
+                    
+                }
         }
-
-        return null;
+        }
+        return a;
     } // end of getAnswer()
 
     /**
