@@ -130,8 +130,7 @@ public class RandomGuessPlayer implements Player {
     @Override
     public boolean noRemainingShips() {
         //iterate through ship list and if no coords (health) then return true
-        for (ShipLocation s : shipLocations) {
-            if (s.coordinates.size() == 0)
+            if shipLocations.size() == 0)
                 return true;
         }
         return false;
