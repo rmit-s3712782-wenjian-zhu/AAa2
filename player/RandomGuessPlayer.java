@@ -16,6 +16,7 @@ public class RandomGuessPlayer implements Player {
 	int x;
 	int y;
 	World world;
+	//ArrayList<Coordinate> shots = world.shots;
 
 	@Override
 	public void initialisePlayer(World world) {
@@ -54,6 +55,7 @@ public class RandomGuessPlayer implements Player {
 			guess.column = rand.nextInt(y);
 			cdn.row = guess.row;
 			cdn.column = guess.column;
+			// another way to check if repeated;
 		} while (world.shots.contains(cdn));
 		// dummy return
 		return guess;
