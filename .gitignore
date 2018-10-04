@@ -9,3 +9,4 @@ ProbabilisticGuessPlayer.class
 RandomGuessPlayer.class
 /ship
 /world
+src/.DS_Store
