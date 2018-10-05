@@ -11,19 +11,16 @@ import java.util.Random;
  * @author Youhan Xia, Jeffrey Chan
  */
 public class RandomGuessPlayer implements Player {
+	// Stores guessed coordinates
 	ArrayList<Coordinate> shots = new ArrayList<>();
 	Random rand = new Random();
 	World world;
-	int x;
-	int y;
 	//ArrayList<Coordinate> shots = world.shots;
 
 	@Override
 	public void initialisePlayer(World world) {
 		// To be implemented.
 		this.world = world;
-		x = world.numRow;
-		y = world.numColumn;
 		// recprd the health of its ships.
 
 	} // end of initialisePlayer()
@@ -42,7 +39,7 @@ public class RandomGuessPlayer implements Player {
 				answer.isHit = true;
 				for (Coordinate c: ship.coordinates){
 					// return answer immediately if not all ship's coordinates are hit.
-					if (!shots.contains(c)){
+					if (!world.shots.contains(c)){
 						return answer;
 					}
 				} // end of for loop;
@@ -63,8 +60,8 @@ public class RandomGuessPlayer implements Player {
 		// Get the coordinate of guess.
 		Coordinate cdn = world.new Coordinate();
 		do {
-			cdn.row = rand.nextInt(x);
-			cdn.column = rand.nextInt(y);
+			cdn.row = rand.nextInt(world.numRow);
+			cdn.column = rand.nextInt(world.numColumn);
 		} while (shots.contains(cdn));
 		shots.add(cdn);
 		guess.row = cdn.row;
