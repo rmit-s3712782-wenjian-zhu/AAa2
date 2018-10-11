@@ -11,18 +11,16 @@ import java.util.Random;
  * @author Youhan Xia, Jeffrey Chan
  */
 public class RandomGuessPlayer implements Player {
+	// Stores guessed coordinates
 	ArrayList<Coordinate> shots = new ArrayList<>();
 	Random rand = new Random();
-	int x;
-	int y;
 	World world;
+	//ArrayList<Coordinate> shots = world.shots;
 
 	@Override
 	public void initialisePlayer(World world) {
 		// To be implemented.
 		this.world = world;
-		x = world.numRow;
-		y = world.numColumn;
 		// recprd the health of its ships.
 
 	} // end of initialisePlayer()
@@ -37,8 +35,19 @@ public class RandomGuessPlayer implements Player {
 		cdn.column = guess.column;
 		// Check if ShipLocation contains the coordinate.
 		for (ShipLocation ship : world.shipLocations) {
-			if (world.shots.contains(cdn))
+			if (ship.coordinates.contains(cdn)){
 				answer.isHit = true;
+				for (Coordinate c: ship.coordinates){
+					// return answer immediately if not all ship's coordinates are hit.
+					if (!world.shots.contains(c)){
+						return answer;
+					}
+				} // end of for loop;
+				// return answer after assigning ship to shipSunk if all ship's
+				// coordinates are hit.
+				answer.shipSunk = ship.ship;
+				return answer;
+			}
 		}
 		// dummy return
 		return answer;
@@ -48,13 +57,15 @@ public class RandomGuessPlayer implements Player {
 	public Guess makeGuess() {
 		// To be implemented.
 		Guess guess = new Guess();
+		// Get the coordinate of guess.
 		Coordinate cdn = world.new Coordinate();
 		do {
-			guess.row = rand.nextInt(x);
-			guess.column = rand.nextInt(y);
-			cdn.row = guess.row;
-			cdn.column = guess.column;
-		} while (world.shots.contains(cdn));
+			cdn.row = rand.nextInt(world.numRow);
+			cdn.column = rand.nextInt(world.numColumn);
+		} while (shots.contains(cdn));
+		shots.add(cdn);
+		guess.row = cdn.row;
+		guess.column = cdn.column;
 		// dummy return
 		return guess;
 	} // end of makeGuess()
@@ -68,9 +79,17 @@ public class RandomGuessPlayer implements Player {
 	@Override
 	public boolean noRemainingShips() {
 		// To be implemented.
-
+		// check if ship lcoations all exist in shots
+		for (ShipLocation ship : world.shipLocations) {
+			for(Coordinate c: ship.coordinates){
+				if (!world.shots.contains(c))
+					return false;
+			}
+		}
 		// dummy return
-		return false;
+		return true;
 	} // end of noRemainingShips()
+
+
 
 } // end of class RandomGuessPlayer

@@ -1,13 +1,7 @@
 .classpath
 .project
-BattleshipMain.class
-player/Answer.class
-player/GreedyGuessPlayer.class
-player/Guess.class
-player/Player.class
-player/RandomGuessPlayer.class
-player/ProbabilisticGuessPlayer.class
-ship
-world
+*.class
+/ship
+/world
 src/.DS_Store
 .DS_Store~ken
